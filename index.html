@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Lost & Found Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>College Lost & Found Portal</h1>
+    <nav>
+      <button onclick="showSection('found')">Found Items</button>
+      <button onclick="showSection('lost')">Lost Items</button>
+      <button onclick="showSection('add')">Add New</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Found Items Section -->
+    <section id="found" class="active">
+      <h2>Found Items</h2>
+      <div id="foundItems" class="item-list"></div>
+    </section>
+
+    <!-- Lost Items Section -->
+    <section id="lost">
+      <h2>Lost Items</h2>
+      <div id="lostItems" class="item-list"></div>
+    </section>
+
+    <!-- Add New Item -->
+    <section id="add">
+      <h2>Add New Item</h2>
+      <form id="itemForm">
+        <label>Type:</label>
+        <select id="itemType">
+          <option value="found">Found</option>
+          <option value="lost">Lost</option>
+        </select>
+
+        <label>Item Name:</label>
+        <input type="text" id="itemName" required />
+
+        <label>Description:</label>
+        <textarea id="itemDesc" required></textarea>
+
+        <label>Location:</label>
+        <input type="text" id="itemLoc" required />
+
+        <label>Contact Info:</label>
+        <input type="text" id="itemContact" required />
+
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 College Lost & Found Portal</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
