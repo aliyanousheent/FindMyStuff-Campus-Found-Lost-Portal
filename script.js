@@ -1,13 +1,14 @@
-// Replace this with your Firebase config
-  const firebaseConfig = {
-    apiKey: "AIzaSyAo-zDHdbxTWwmoW2hVoBgMne6B14kUnQs",
-    authDomain: "findmystuff-fedac.firebaseapp.com",
-    projectId: "findmystuff-fedac",
-    storageBucket: "findmystuff-fedac.firebasestorage.app",
-    messagingSenderId: "129985105045",
-    appId: "1:129985105045:web:34f5b9f29dc0a920f99f9c",
-    measurementId: "G-NTSWSKCL4B"
-  };
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyAo-zDHdbxTWwmoW2hVoBgMne6B14kUnQs",
+  authDomain: "findmystuff-fedac.firebaseapp.com",
+  projectId: "findmystuff-fedac",
+  storageBucket: "findmystuff-fedac.firebasestorage.app",
+  messagingSenderId: "129985105045",
+  appId: "1:129985105045:web:34f5b9f29dc0a920f99f9c",
+  measurementId: "G-NTSWSKCL4B"
+};
+
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -19,35 +20,58 @@ const itemList = document.getElementById('itemList');
 const showLost = document.getElementById('showLost');
 const showFound = document.getElementById('showFound');
 
-let currentFilter = 'lost'; // default filter
+let currentFilter = 'lost';
 
-// Add item to Firestore
+// Add item
 addItemForm.addEventListener('submit', (e) => {
   e.preventDefault();
-  const name = document.getElementById('itemName').value;
+
+  const name = document.getElementById('itemName').value.trim();
   const type = document.getElementById('itemType').value;
+  const location = document.getElementById('itemLocation').value.trim();
+  const contact = document.getElementById('contactInfo').value.trim();
+
+  if(!name || !type || !location || !contact) {
+    alert('Please fill all fields!');
+    return;
+  }
 
   db.collection('items').add({
     name,
     type,
+    location,
+    contact,
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(() => {
-    addItemForm.reset();
   });
+
+  addItemForm.reset();
 });
 
-// Display items in real-time
+// Display items
 function displayItems(filter) {
-  itemList.innerHTML = '';
   db.collection('items')
     .orderBy('timestamp', 'desc')
-    .onSnapshot((snapshot) => {
+    .onSnapshot(snapshot => {
       itemList.innerHTML = '';
       snapshot.docs.forEach(doc => {
         const item = doc.data();
-        if(item.type === filter){
+        if(item.type === filter) {
           const li = document.createElement('li');
-          li.textContent = `${item.name} (${item.type})`;
+          const date = item.timestamp ? item.timestamp.toDate().toLocaleString() : '';
+
+          li.innerHTML = `
+            <strong>${item.name}</strong> (${item.type})<br>
+            Location: ${item.location}<br>
+            Contact: ${item.contact}<br>
+            Added: ${date}
+          `;
+
+          const deleteBtn = document.createElement('button');
+          deleteBtn.textContent = 'Delete';
+          deleteBtn.className = 'delete';
+          deleteBtn.onclick = () => db.collection('items').doc(doc.id).delete();
+          li.appendChild(deleteBtn);
+
           itemList.appendChild(li);
         }
       });
@@ -65,5 +89,5 @@ showFound.addEventListener('click', () => {
   displayItems(currentFilter);
 });
 
-// Initially show lost items
+// Initial display
 displayItems(currentFilter);
