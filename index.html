@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,29 +10,23 @@
   <header>
     <h1>College Lost & Found Portal</h1>
     <nav>
-      <button onclick="showSection('found')">Found Items</button>
-      <button onclick="showSection('lost')">Lost Items</button>
+      <button id="showFound">Found Items</button>
+      <button id="showLost">Lost Items</button>
       <button onclick="showSection('add')">Add New</button>
     </nav>
   </header>
 
   <main>
-    <!-- Found Items Section -->
-    <section id="found" class="active">
-      <h2>Found Items</h2>
-      <div id="foundItems" class="item-list"></div>
-    </section>
-
-    <!-- Lost Items Section -->
-    <section id="lost">
-      <h2>Lost Items</h2>
-      <div id="lostItems" class="item-list"></div>
+    <!-- Found and Lost Items Section -->
+    <section id="items">
+      <h2>Items</h2>
+      <ul id="itemList"></ul>
     </section>
 
     <!-- Add New Item -->
     <section id="add">
       <h2>Add New Item</h2>
-      <form id="itemForm">
+      <form id="addItemForm">
         <label>Type:</label>
         <select id="itemType">
           <option value="found">Found</option>
@@ -43,14 +36,11 @@
         <label>Item Name:</label>
         <input type="text" id="itemName" required />
 
-        <label>Description:</label>
-        <textarea id="itemDesc" required></textarea>
-
         <label>Location:</label>
-        <input type="text" id="itemLoc" required />
+        <input type="text" id="itemLocation" required />
 
         <label>Contact Info:</label>
-        <input type="text" id="itemContact" required />
+        <input type="text" id="contactInfo" required />
 
         <button type="submit">Submit</button>
       </form>
@@ -60,9 +50,10 @@
   <footer>
     <p>© 2025 College Lost & Found Portal</p>
   </footer>
+
   <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <script src="script.js?v=1"></script>
 </body>
